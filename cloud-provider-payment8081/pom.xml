@@ -57,6 +57,11 @@
 <!--            <artifactId>tomcat-embed-websocket</artifactId>-->
 <!--            <version>${tomcat.version}</version>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>com.atguigu.springcloud</groupId>
+            <artifactId>cloud-api-commoms</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <properties>
