@@ -8,9 +8,9 @@
 
 在 Nacos 的 GitHub 页面，提供有下载链接，可以下载编译好的 Nacos 服务端或者源代码：
 
-GitHub 主页：https://github.com/alibaba/nacos
+GitHub 主页：`https://github.com/alibaba/nacos`
 
-GitHub 的 Release 下载页：https://github.com/alibaba/nacos/releases
+GitHub 的 Release 下载页：`https://github.com/alibaba/nacos/releases`
 
 如图：
 
@@ -65,7 +65,7 @@ startup.cmd -m standalone
 
 ### 1.5.访问
 
-在浏览器输入地址：http://127.0.0.1:8848/nacos即可：
+在浏览器输入地址：`http://127.0.0.1:8848/nacos即可` ：
 
 ![image-20210402162630427](https://raw.githubusercontent.com/senluoye/BadGallery/master/image/image-20210402162630427.png)
 

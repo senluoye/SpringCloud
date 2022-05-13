@@ -1,6 +1,6 @@
 # Nacos 集群搭建
 
-# 1.集群结构图
+## 1.集群结构图
 
 官方给出的 Nacos 集群图：
 
@@ -20,7 +20,7 @@
 | nacos2 | 192.168.150.1 | 8846 |
 | nacos3 | 192.168.150.1 | 8847 |
 
-# 2.搭建集群
+## 2.搭建集群
 
 搭建集群的基本步骤：
 
@@ -30,7 +30,7 @@
 - 启动 nacos 集群
 - nginx 反向代理
 
-## 2.1.初始化数据库
+### 2.1.初始化数据库
 
 Nacos**默认数据**存储在内嵌数据库**Derby**中，**不属于生产可用的数据库**。
 
@@ -218,15 +218,15 @@ CREATE TABLE `tenant_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='tenant_info';
 
 CREATE TABLE `users` (
-	`username` varchar(50) NOT NULL PRIMARY KEY,
-	`password` varchar(500) NOT NULL,
-	`enabled` boolean NOT NULL
+    `username` varchar(50) NOT NULL PRIMARY KEY,
+    `password` varchar(500) NOT NULL,
+    `enabled` boolean NOT NULL
 );
 
 CREATE TABLE `roles` (
-	`username` varchar(50) NOT NULL,
-	`role` varchar(50) NOT NULL,
-	UNIQUE INDEX `idx_user_role` (`username` ASC, `role` ASC) USING BTREE
+    `username` varchar(50) NOT NULL,
+    `role` varchar(50) NOT NULL,
+    UNIQUE INDEX `idx_user_role` (`username` ASC, `role` ASC) USING BTREE
 );
 
 CREATE TABLE `permissions` (
@@ -241,7 +241,7 @@ INSERT INTO users (username, password, enabled) VALUES ('nacos', '$2a$10$EuWPZHz
 INSERT INTO roles (username, role) VALUES ('nacos', 'ROLE_ADMIN');
 ```
 
-## 2.2.下载 nacos
+#### 2.2.下载 nacos
 
 nacos 在 GitHub 上有[下载地址](https://github.com/alibaba/nacos/tags)，可以选择任意版本下载。
 
@@ -249,7 +249,7 @@ nacos 在 GitHub 上有[下载地址](https://github.com/alibaba/nacos/tags)，�
 
 ![20220513175656](https://raw.githubusercontent.com/senluoye/BadGallery/master/image/20220513175656.png)
 
-## 2.3.配置 Nacos
+#### 2.3.配置 Nacos
 
 将这个包解压到任意非中文目录下，如图：
 
@@ -266,7 +266,7 @@ nacos 在 GitHub 上有[下载地址](https://github.com/alibaba/nacos/tags)，�
 
 然后添加（修改）内容：
 
-```
+```conf
 127.0.0.1:8845
 127.0.0.1.8846
 127.0.0.1.8847
@@ -284,11 +284,11 @@ db.user.0=root
 db.password.0=123456
 ```
 
-## 2.4.启动
+#### 2.4.启动
 
 将 nacos 文件夹复制三份，分别命名为：nacos1、nacos2、nacos3
 
-![](https://raw.githubusercontent.com/senluoye/BadGallery/master/image/image-20210409213335538.png)
+![1123](https://raw.githubusercontent.com/senluoye/BadGallery/master/image/image-20210409213335538.png)
 
 然后分别修改三个文件夹中的 application.properties，
 
@@ -312,27 +312,27 @@ server.port=8847
 
 然后分别启动三个 nacos 节点：
 
-```
+```bash
 startup.cmd
 ```
 
-## 2.5.nginx 反向代理
+#### 2.5.nginx 反向代理
 
 这里使用版本为 1.18.0 的 nginx 安装包：
 
-![](https://raw.githubusercontent.com/senluoye/BadGallery/master/image/image-20210410103253355.png)
+![123](https://raw.githubusercontent.com/senluoye/BadGallery/master/image/image-20210410103253355.png)
 
 解压到任意非中文目录下：
 
-![](https://raw.githubusercontent.com/senluoye/BadGallery/master/image/image-20210410103322874.png)
+![123](https://raw.githubusercontent.com/senluoye/BadGallery/master/image/image-20210410103322874.png)
 
 修改 conf/nginx.conf 文件，配置如下：
 
 ```nginx
 upstream nacos-cluster {
     server 127.0.0.1:8845;
-	server 127.0.0.1:8846;
-	server 127.0.0.1:8847;
+    server 127.0.0.1:8846;
+    server 127.0.0.1:8847;
 }
 
 server {
@@ -345,7 +345,7 @@ server {
 }
 ```
 
-而后在浏览器访问：http://localhost/nacos 即可。
+而后在浏览器访问：`http://localhost/nacos` 即可。
 
 代码中 application.yml 文件配置如下：
 
@@ -353,10 +353,10 @@ server {
 spring:
   cloud:
     nacos:
-      server-addr: localhost:80 # Nacos地址
+      server-addr: localhost:80 ## Nacos地址
 ```
 
-## 2.6.关于 Nginx 启动错误
+#### 2.6.关于 Nginx 启动错误
 
 如果 start ngins.exe 时报如下错误：
 
@@ -392,13 +392,13 @@ bind() to 0.0.0.0:80 failed (10013: An attempt was made to access a socket
 
 ![image-20220406223559281](https://raw.githubusercontent.com/senluoye/BadGallery/master/image/image-20220406223559281.png)
 
-## 2.7.优化
+#### 2.7.优化
 
 - 实际部署时，需要给做反向代理的 nginx 服务器设置一个域名，这样后续如果有服务器迁移 nacos 的客户端也无需更改配置.
 
 - Nacos 的各个节点应该部署到多个不同服务器，做好容灾和隔离
 
-## 2.8.新建配置
+#### 2.8.新建配置
 
 搭建号集群后，在当前 namespace 下新建配置，内容和之前的一样：
 
