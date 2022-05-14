@@ -126,7 +126,7 @@ curl -L https://github.com/docker/compose/releases/download/1.24.1/docker-compos
 chmod +x /usr/local/bin/docker-compose
 ```
 
-## 2.3.Base 自动补全命令：
+## 2.3.Base 自动补全命令
 
 ```sh
 # 补全命令
